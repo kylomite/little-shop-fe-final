@@ -10,6 +10,7 @@ const merchantsNavButton = document.querySelector("#merchants-nav")
 const itemsNavButton = document.querySelector("#items-nav")
 const addNewButton = document.querySelector("#add-new-button")
 const showingText = document.querySelector("#showing-text")
+const showingAllMerchants = document.querySelector("#showing-all-merchants")
 
 //Form elements
 const merchantForm = document.querySelector("#new-merchant-form")
@@ -245,7 +246,7 @@ function getMerchantCoupons(event) {
 
 function displayMerchantCoupons(coupons) {
   show([couponsView])
-  hide([merchantsView, itemsView])
+  hide([merchantsView, itemsView, addNewButton, showingAllMerchants])
 
   couponsView.innerHTML = `
     <p>Coupon data will go here.</p>
