@@ -37,6 +37,7 @@ submitMerchantButton.addEventListener('click', (event) => {
 //Global variables
 let merchants;
 let items;
+let coupons;
 
 //Page load data fetching
 Promise.all([fetchData('merchants'), fetchData('items')])
@@ -237,7 +238,7 @@ function getMerchantCoupons(event) {
   let merchantId = event.target.closest("article").id.split('-')[1]
   console.log("Merchant ID:", merchantId)
 
-  fetchData(`merchants/${merchantId}`)
+  fetchData(`merchants/${merchantId}/coupons`)
   .then(couponData => {
     console.log("Coupon data from fetch:", couponData)
     displayMerchantCoupons(couponData);
@@ -247,11 +248,20 @@ function getMerchantCoupons(event) {
 function displayMerchantCoupons(coupons) {
   show([couponsView])
   hide([merchantsView, itemsView, addNewButton, showingAllMerchants])
+  
+  couponsView.innerHTML = ""
 
-  couponsView.innerHTML = `
-    <p>Coupon data will go here.</p>
-  `
-}
+  coupons.data.forEach((coupon) => {
+    couponsView.innerHTML += `
+      <article class="item">
+        <h2>${coupon.attributes.name}</h2>
+        <p>CODE: ${coupon.attributes.code}</p>
+      ${coupon.attributes.percent_off ? `<p>${coupon.attributes.value_off} % off</p>` : `<p>$${coupon.attributes.value_off} off</p>`}
+      ${coupon.attributes.active ? `<h4 class="success">ACTIVE</h4>` : `<h4 class="fail">INACTIVE</h4>`}
+      <article>
+    `
+  })
+ }
 
 //Helper Functions
 function show(elements) {
